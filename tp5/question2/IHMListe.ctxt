@@ -1,7 +1,13 @@
 #BlueJ class context
 comment0.target=IHMListe
-comment1.params=
-comment1.target=IHMListe()
-comment2.params=args
-comment2.target=void\ main(java.lang.String[])
-numComments=3
+comment0.text=\r\n\ Classe\ IHMListe.\r\n\ \r\n\ @author\ Oziol\ Joris\r\n\ @version\ 07/11/2016\r\n
+comment1.params=liste\ occurrences
+comment1.target=IHMListe(java.util.List,\ java.util.Map)
+comment2.params=ae
+comment2.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment2.text=ne\ pas\ modifier\ les\ affichages,\ les\ classes\ de\ tests\ en\ ont\ besoin\ ...
+comment3.params=ie
+comment3.target=void\ itemStateChanged(java.awt.event.ItemEvent)
+comment4.params=prefixe
+comment4.target=boolean\ retirerDeLaListeTousLesElementsCommencantPar(java.lang.String)
+numComments=5

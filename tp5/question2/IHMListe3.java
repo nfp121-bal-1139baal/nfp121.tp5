@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @author Oziol Joris
  * @version 07/11/2016
  */
-public class IHMListe2 extends JPanel implements ActionListener, ItemListener {
+public class IHMListe3 extends JPanel implements ActionListener, ItemListener {
 
     private JPanel cmd = new JPanel();
     private JLabel afficheur = new JLabel();
@@ -40,15 +40,22 @@ public class IHMListe2 extends JPanel implements ActionListener, ItemListener {
     private List<String> liste;
     private Map<String, Integer> occurrences;
 
-    //pile de sauvegarde.
-    private Stack<List<String>> pileSave;
     
-    public IHMListe2(List<String> liste, Map<String, Integer> occurrences) {
+
+    private Originator originator;
+    private Caretaker caretaker ;
+    
+    
+    public IHMListe3(List<String> liste, Map<String, Integer> occurrences) {
         this.liste = liste;
         this.occurrences = occurrences;
 
         //Nouvelle pile
-        pileSave = new Stack();
+        
+        originator = new Originator();
+        caretaker = new Caretaker();
+        
+        
         
         cmd.setLayout(new GridLayout(3, 1));
         cmd.add(afficheur);
@@ -109,13 +116,15 @@ public class IHMListe2 extends JPanel implements ActionListener, ItemListener {
                 }else{
                     afficheur.setText(" -->  ??? ");
                 }
-            }else if(ae.getSource() == boutonAnnuler){//Bouton annuler
+            }else if(ae.getSource() == boutonAnnuler){
+                //Bouton annuler
+                
                 try{
-                    if(!pileSave.isEmpty()){
-                        this.liste = pileSave.pop();
+                    if(!caretaker.isEmpty()){
+                        liste = originator.restoreFromMemento(caretaker.getMemento());
                         occurrences = Chapitre2CoreJava2.occurrencesDesMots(this.liste); //recalcule des occurrences systématique donc pas besoin de les sauver !!!!!!!
 
-                    }else{
+                    } else{
                     }
                 } catch (Exception e){}
             }
@@ -127,15 +136,15 @@ public class IHMListe2 extends JPanel implements ActionListener, ItemListener {
     }
 
     public void itemStateChanged(ItemEvent ie) {
-        List<String> listeBis = new ArrayList<String>(this.liste);
+         List<String> listeBis = new ArrayList<String>(this.liste);
         boolean res = false;
         if (ie.getSource() == ordreCroissant){
             res = true;
-            if(res) {sauvegarder(listeBis);}
+            if(res) {sauvegarder( listeBis);}
             Collections.sort(this.liste);
         }else if (ie.getSource() == ordreDecroissant){
             res = true;
-            if(res) {sauvegarder(listeBis);}
+            if(res) {sauvegarder( listeBis);}
             Collections.sort(this.liste, Collections.reverseOrder());
         }
         texte.setText(liste.toString());
@@ -157,8 +166,9 @@ public class IHMListe2 extends JPanel implements ActionListener, ItemListener {
         return resultat;
     }
 
-    private void sauvegarder(List<String> listSave){
-        pileSave.push(listSave);
-        
+    private void sauvegarder(List<String> listeBis){
+         listeBis = new ArrayList<>(this.liste);
+        originator.set(listeBis);//memento// 
+        caretaker.addMemento(originator.saveToMemento());//memento
     }
 }
